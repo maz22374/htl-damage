@@ -22,6 +22,15 @@ zu bekommen. Aus meiner Sicht ergibt sich ein schönes Projekt für einen 3. Jah
 - Optional: Mit Methoden des Data Science wird versucht, Klassen zu ermitteln, die Schäden
   verursacht haben. Das ist experimentell und ergebnisoffen, ob so etwas funktionieren kann.
 
+## Teammitglieder
+
+| Name                        | Email                    | Aufgabenbereich                         | 
+| -----------------------     | ----------------------   | --------------------------------------- |
+| David *Mazurek*, 3CHIF      | maz22374@spengergasse.at | Neue Schäden melden                     |
+| Viktor *Zhelev*, 3CHIF      | zhe22045@spengergasse.at | Vorhandene Schäden anzeigen             |
+| Matija *Radomirovic*, 3CHIF | rad22669@spengergasse.at | WebUntis Schnittstelle                  |
+
+
 ## Synchronisieren des Repositorys in einen Ordner
 
 Installiere die neueste Version von [git](https://git-scm.com/downloads) mit den Standardeinstellungen.
@@ -46,11 +55,32 @@ chmod a+x
 ./resetGit.sh
 ```
 
-## Teammitglieder
+## Konfiguration und Start der Applikation
 
-| Name                        | Email                    | Aufgabenbereich                         | 
-| -----------------------     | ----------------------   | --------------------------------------- |
-| David *Mazurek*, 3CHIF      | maz22374@spengergasse.at | Neue Schäden melden                     |
-| Viktor *Zhelev*, 3CHIF      | zhe22045@spengergasse.at | Vorhandene Schäden anzeigen             |
-| Matija *Radomirovic*, 3CHIF | rad22669@spengergasse.at | WebUntis Schnittstelle                  |
+Die Applikation braucht die .NET SDK >= 6 und Docker.
+Zuerst muss die ASP.NET Core WebAPI konfiguriert werden, da die Datei
+*htl_damage_app/HtlDamage.Webapi/appsettings.Development.json*
+nicht ins Repository übertragen wird, siehe [README](htl_damage_app/README.md).
+
+### Build des Vue.js Clients
+
+Im Ordner *htl_damage_app/HtlDamage.Vueclient* kann ein Build der Vue.js Applikation erzeugt werden.
+Dieser wird automatisch in den Ordner *htl_damage_app/HtlDamage.Webapi/wwwroot* kopiert.
+
+```
+npm run build
+```
+
+### Ausführen des Servers
+
+**Windows**
+```
+startServer.cmd
+```
+
+**macOS, Linux**
+```
+chmod a+x start_server.sh
+./start_server.sh
+```
 

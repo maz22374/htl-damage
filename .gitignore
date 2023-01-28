@@ -1,8 +1,7 @@
-**/bin
-**/obj
 **/.vs
 **/.vscode
+**/bin
+**/obj
 **/node_modules
-*.db*
-**/.user.json
-
+appsettings.Development.json
+package-lock.json
