@@ -1,8 +1,14 @@
 ﻿using Bogus;
 using Bogus.DataSets;
+using CsvHelper;
+using CsvHelper.Configuration;
+using HtlDamage.Application.Dto;
+using HtlDamage.Application.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,50 +17,79 @@ namespace HtlDamage.Application.Infrastructure
 {
     public class DamageContext : DbContext
     {
-        public DamageContext(DbContextOptions<DamageContext> opt): base(opt) { }
-        public DbSet<Model.Damage> Companies => Set<Model.Damage>();
+        public DamageContext(DbContextOptions<DamageContext> opt) : base(opt) { }
+
+        public DbSet<Damage> Damages => Set<Damage>();
+        public DbSet<User> Users => Set<User>();
+        public DbSet<RoomCategory> RoomCategories => Set<RoomCategory>();
+
         public void Seed()
         {
-            Randomizer.Seed = new Random(1039);
-            var faker = new Faker("de");
+            Randomizer.Seed = new Random(187);
 
-            var companies = new Faker<Model.Damage>("de").CustomInstantiator(f =>
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                return new Model.Damage(name: f.Lorem.Sentence(f.Random.Int(3,10)))
-                { Guid = faker.Random.Guid() };
-            })
-            .Generate(10)
-            .ToList();
-            Companies.AddRange(companies);
-            SaveChanges();
+                Encoding = Encoding.UTF8,
+                Delimiter = ";",
+                MissingFieldFound = null
+            };
+
+            // Users
+            var fileNameUsers = Path.Combine("Data", "User.CSV");
+            using (var fs = File.Open(fileNameUsers, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var reader = new StreamReader(fs, Encoding.UTF8))
+            using (var csv = new CsvReader(reader, config))
+            {
+                csv.Context.RegisterClassMap<UserCsv>();
+                var users = csv.GetRecords<User>();
+                Users.AddRange(users);
+                SaveChanges();
+            }
+
+            // Room Categories
+            var fileNameRooms = Path.Combine("Data", "Room.CSV");
+            using (var fs = File.Open(fileNameRooms, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var reader = new StreamReader(fs, Encoding.UTF8))
+            using (var csv = new CsvReader(reader, config))
+            {
+                csv.Read();
+                csv.ReadHeader();
+
+                var categories = new List<RoomCategory>();
+                var uniqueCategories = new HashSet<string>();
+                while (csv.Read())
+                {
+                    var category = csv.GetField("RoomCategory");
+                    if (!string.IsNullOrEmpty(category) && uniqueCategories.Add(category))
+                    {
+                        categories.Add(new RoomCategory(name: category));
+                    }
+                }
+                RoomCategories.AddRange(categories);
+                SaveChanges();
+            }
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Additional config
-
-            // Generic config for all entities
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
-                // ON DELETE RESTRICT instead of ON DELETE CASCADE
                 foreach (var key in entityType.GetForeignKeys())
                     key.DeleteBehavior = DeleteBehavior.Restrict;
 
                 foreach (var prop in entityType.GetDeclaredProperties())
                 {
-                    // Define Guid as alternate key. The database can create a guid fou you.
                     if (prop.Name == "Guid")
                     {
                         modelBuilder.Entity(entityType.ClrType).HasAlternateKey("Guid");
                         prop.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAdd;
                     }
-                    // Default MaxLength of string Properties is 255.
+
                     if (prop.ClrType == typeof(string) && prop.GetMaxLength() is null) prop.SetMaxLength(255);
-                    // Seconds with 3 fractional digits.
                     if (prop.ClrType == typeof(DateTime)) prop.SetPrecision(3);
                     if (prop.ClrType == typeof(DateTime?)) prop.SetPrecision(3);
                 }
             }
-
         }
     }
 }

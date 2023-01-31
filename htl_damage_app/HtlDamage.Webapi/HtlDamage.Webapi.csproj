@@ -12,5 +12,13 @@
 	<ItemGroup>
 		<ProjectReference Include="..\HtlDamage.Application\HtlDamage.Application.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+		<None Update="Data\Room.CSV">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Data\User.CSV">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>

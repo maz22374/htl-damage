@@ -18,8 +18,8 @@ namespace HtlDamage.Webapi.Controllers
         [HttpGet]
         public IActionResult GetAllCompanies()
         {
-            var companies = _db.Companies.OrderBy(c => c.Name).ToList();
-            return Ok(companies);
+            var damages = _db.Damages.OrderBy(c => c.Name).ToList();
+            return Ok(damages);
         }
     }
 }
