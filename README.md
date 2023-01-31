@@ -51,7 +51,7 @@ resetGit.cmd
 **macOS, Linux**
 
 ```
-chmod a+x 
+chmod a+x resetGit.sh
 ./resetGit.sh
 ```
 
