@@ -51,7 +51,7 @@ resetGit.cmd
 **macOS, Linux**
 
 ```
-chmod a+x 
+chmod a+x resetGit.sh
 ./resetGit.sh
 ```
 
@@ -80,7 +80,7 @@ startServer.cmd
 
 **macOS, Linux**
 ```
-chmod a+x start_server.sh
-./start_server.sh
+chmod a+x startServer.sh
+./startServer.sh
 ```
 
