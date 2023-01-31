@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "FitManager.Webapi": {
+    "HtlDamage.Webapi": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
