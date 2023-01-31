@@ -12,5 +12,10 @@
 	<ItemGroup>
 		<ProjectReference Include="..\HtlDamage.Application\HtlDamage.Application.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+		<None Update="Data\3CHIF.CSV">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>
