@@ -77,8 +77,8 @@ namespace HtlDamage.Application.Infrastructure
             {
                 csv.Context.RegisterClassMap<RoomCsv>();
                 var rooms = csv.GetRecords<Room>();
-                Rooms.AddRange(rooms);
-                SaveChanges();
+                
+                // TODO: Add rooms into DbSet Rooms
             }
         }
 
