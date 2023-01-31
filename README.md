@@ -80,7 +80,7 @@ startServer.cmd
 
 **macOS, Linux**
 ```
-chmod a+x start_server.sh
-./start_server.sh
+chmod a+x startServer.sh
+./startServer.sh
 ```
 
