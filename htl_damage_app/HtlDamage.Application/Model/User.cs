@@ -22,7 +22,7 @@ namespace HtlDamage.Application.Model
         protected User() { }
 #pragma warning restore CS8618
 
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public Guid Guid { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
