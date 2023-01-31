@@ -22,6 +22,7 @@ namespace HtlDamage.Application.Infrastructure
         public DbSet<Damage> Damages => Set<Damage>();
         public DbSet<User> Users => Set<User>();
         public DbSet<RoomCategory> RoomCategories => Set<RoomCategory>();
+        public DbSet<Room> Rooms => Set<Room>();
 
         public void Seed()
         {
@@ -66,6 +67,17 @@ namespace HtlDamage.Application.Infrastructure
                     }
                 }
                 RoomCategories.AddRange(categories);
+                SaveChanges();
+            }
+
+            // Rooms
+            using (var fs = File.Open(fileNameRooms, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var reader = new StreamReader(fs, Encoding.UTF8))
+            using (var csv = new CsvReader(reader, config))
+            {
+                csv.Context.RegisterClassMap<RoomCsv>();
+                var rooms = csv.GetRecords<Room>();
+                Rooms.AddRange(rooms);
                 SaveChanges();
             }
         }
