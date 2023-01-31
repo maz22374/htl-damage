@@ -1,163 +1,163 @@
-RoomNumber;Floor;RoomCategory
-A1.03;1. Stock;Jugencoaching
-A1.05;1. Stock;Stammklasse
-A1.06;1. Stock;Stammklasse
-A1.14;1. Stock;Stammklasse
-A1.15;1. Stock;Stammklasse
-A1.16;1. Stock;Stammklasse
-A1.17;1. Stock;Stammklasse
-A1.23;1. Stock;Stammklasse
-A2.04;2. Stock;Stammklasse
-A2.05;2. Stock;Stammklasse
-A2.06;2. Stock;Stammklasse
-A2.13;2. Stock;Stammklasse
-A2.14;2. Stock;Stammklasse
-A2.20;2. Stock;Stammklasse
-A3.04;3. Stock;Stammklasse
-A3.05;3. Stock;Stammklasse
-A3.12;3. Stock;Stammklasse
-A3.13;3. Stock;Stammklasse
-A3.14;3. Stock;Stammklasse
-A3.19;3. Stock;Stammklasse
-AH.21;Erdgeschoss;Bibliothek
-AH.26;Erdgeschoss;Stammklasse
-AH.32;Erdgeschoss;Naturwissenschaftlicher Raum
-AU.04;Erdgeschoss;Gymnastikraum
-B1.06W;1. Stock;Lager
-B1.07HW;1. Stock;Hardware-Labor
-B1.08ab;1. Stock;Stammklasse
-B1.13W;1. Stock;Holz- und Modellbau
-B1.14W;1. Stock;Wartung und Instandhaltung
-B1.15HW;1. Stock;Hardwarelabor
-B2.06L;2. Stock;Baustelle, nicht benützen
-B2.07aL;2. Stock;Foto- und Gamelabor
-B2.07bW;2. Stock;Modellierwerkstätte
-B2.09HW;2. Stock;Hardwarelabor
-B2.10HW;2. Stock;Hardwarelabor
-B2.11HW;2. Stock;Hardwarelabor
-B3.06MF;3. Stock;Multifunktionslabor
-B3.07MF;3. Stock;Multimedialabor
-B3.08MF;3. Stock;Multifunktionslabor
-B3.10MF;3. Stock;Multifunktionslabor
-B3.11NW;3. Stock;Netzwerklabor
-B3.12NW;3. Stock;Netzwerklabor
-B4.07;4. Stock;Besprechungsraum
-B4.12MF;4. Stock;Multimedialabor
-B4.14MF;4. Stock;Multifunktionslabor
-B4.15MF;4. Stock;Multifunktionslabor
-B4.16MF;4. Stock;Multifunktionslabor
-B4.17MF;4. Stock;Multifunktionslabor
-B5.06;5. Stock;Stammklasse
-B5.07;5. Stock;Stammklasse
-B5.08;5. Stock;Stammklasse
-B5.09;5. Stock;Stammklasse
-B5.10;5. Stock;Stammklasse
-B5.11;5. Stock;Stammklasse
-B5.12;5. Stock;Stammklasse
-B5.13;5. Stock;Stammklasse
-BH.08W;Erdgeschoss;Netzwerktechnik
-BH.09aW;Erdgeschoss;Mechanik
-BH.09bW;Erdgeschoss;CNC-Technik
-BH.09cW;Erdgeschoss;Blechbearbeitung
-BH.09dW;Erdgeschoss;Schweisstechnik
-BH.10aW;Erdgeschoss;Plasmaschneider
-BH.11W;Erdgeschoss;Mechanik
-BLA;Erdgeschoss;Betriebslaboratorium
-C1.07;1. Stock;Stammklasse
-C1.10;1. Stock;Stammklasse
-C1.13;1. Stock;Stammklasse
-C1.14;1. Stock;Stammklasse
-C1.17;1. Stock;Stammklasse
-C2.06;2. Stock;Stammklasse
-C2.07;2. Stock;Stammklasse
-C2.08;2. Stock;Stammklasse
-C2.09;2. Stock;Stammklasse
-C2.10;2. Stock;Stammklasse
-C2.11;2. Stock;Stammklasse
-C2.14;2. Stock;Stammklasse
-C3.06;3. Stock;Stammklasse
-C3.07;3. Stock;Stammklasse
-C3.08;3. Stock;Stammklasse
-C3.09;3. Stock;Stammklasse
-C3.10;3. Stock;Stammklasse
-C3.11;3. Stock;Stammklasse
-C3.14;3. Stock;Stammklasse
-C4.06;4. Stock;Stammklasse
-C4.07;4. Stock;Stammklasse
-C4.08;4. Stock;Stammklasse
-C4.09;4. Stock;Stammklasse
-C4.10;4. Stock;Stammklasse
-C4.11;4. Stock;Stammklasse
-C4.14;4. Stock;Stammklasse
-C5.06;5. Stock;Stammklasse
-C5.07;5. Stock;Stammklasse
-C5.08;5. Stock;Stammklasse
-C5.09;5. Stock;Stammklasse
-C5.10;5. Stock;Stammklasse
-CH.09L;Erdgeschoss;Robotik und IoT
-CH.10aL;Erdgeschoss;Medizintechnik
-CH.11L;Erdgeschoss;Medizintechnik
-CH.12L;Erdgeschoss;Innovationslabor
-CH.13;Erdgeschoss;Stammklasse
-CH.14a;Erdgeschoss;Stammklasse
-CU.27;Erdgeschoss;Sporthalle 1
-CU.28;Erdgeschoss;Sporthalle 2
-DE.03;Erdgeschoss;Chemiesaal
-DE.04L;Erdgeschoss;Instrumentelle Analytik
-DE.05L;Erdgeschoss;Analytik und Prüftechnik
-DE.06L;Erdgeschoss;Umweltlabor
-DE.09L;Erdgeschoss;Nasschemisches Labor
-DE.10W;Erdgeschoss;Reinigungs- und Facilitytechnik
-DE.11W;Erdgeschoss;Färbe-, Veredlungs- und Verfahrenstechnik
-DE.12aW;Erdgeschoss;Farblabor
-DE.13aW;Erdgeschoss;Drucktechnik
-DE.15L;Erdgeschoss;Versuchsanstalt Prüflabor
-DE.19L;Erdgeschoss;Informatik-/KÜ-Labor
-DE.20L;Erdgeschoss;Automatisierungstechnik
-DE.21L;Erdgeschoss;Elektrotechnik und Elektronik
-DE.22L;Erdgeschoss;Mess- und Prüftechnik
-DISTL;Erdgeschoss;Distance Learning
-LZ_A1.07;1. Stock;Lehrerzimmer
-LZ_A1.13;1. Stock;Lehrerzimmer
-LZ_A2.12;2. Stock;Lehrerzimmer
-LZ_A2.15;2. Stock;Lehrerzimmer
-LZ_A3.11;3. Stock;Lehrerzimmer
-LZ_AH.21;Erdgeschoss;Lehrerzimmer
-LZ_AH.25;Erdgeschoss;Lehrerzimmer
-LZ_B1.12;1. Stock;Lehrerzimmer
-LZ_B1.16A;1. Stock;Lehrerzimmer
-LZ_B2.12A;2. Stock;Lehrerzimmer
-LZ_B3.12;3. Stock;Lehrerzimmer
-LZ_B3.15;3. Stock;Lehrerzimmer
-LZ_B4.06B;4. Stock;Lehrerzimmer
-LZ_B4.08;4. Stock;Lehrerzimmer
-LZ_B4.09;4. Stock;Lehrerzimmer
-LZ_B4.10;4. Stock;Lehrerzimmer
-LZ_B4.11;4. Stock;Lehrerzimmer
-LZ_B4.18A;4. Stock;Lehrerzimmer
-LZ_B5.14;5. Stock;Lehrerzimmer
-LZ_B5.14/B6.02;5. Stock;Lehrerzimmer
-LZ_B5.15A;5. Stock;Lehrerzimmer
-LZ_B5.15B;5. Stock;Lehrerzimmer
-LZ_B5.15C;5. Stock;Lehrerzimmer
-LZ_B5.15a;5. Stock;Lehrerzimmer
-LZ_B5.18A;5. Stock;Lehrerzimmer
-LZ_B5.18B;5. Stock;Lehrerzimmer
-LZ_B5.18C;5. Stock;Lehrerzimmer
-LZ_B5.19;5. Stock;Lehrerzimmer
-LZ_B6.02;6. Stock;Lehrerzimmer
-LZ_BH.08C;Erdgeschoss;Lehrerzimmer
-LZ_BH.10B;Erdgeschoss;Lehrerzimmer
-LZ_C1.16a;1. Stock;Lehrerzimmer
-LZ_C2.12;2. Stock;Lehrerzimmer
-LZ_C3.12;3. Stock;Lehrerzimmer
-LZ_C4.12;4. Stock;Lehrerzimmer
-LZ_C5.11;5. Stock;Lehrerzimmer
-LZ_CU.08;Erdgeschoss;Lehrerzimmer
-LZ_CU.14;Erdgeschoss;Lehrerzimmer
-LZ_CU.20;Erdgeschoss;Lehrerzimmer
-LZ_DE.13;Erdgeschoss;Lehrerzimmer
-LZ_DE.15;Erdgeschoss;Lehrerzimmer
-LZ_DE.16;Erdgeschoss;Lehrerzimmer
-VAS;Erdgeschoss;Veranstaltungssaal
-WAKL;Erdgeschoss;Wanderklasse
+RoomNumber;RoomCategory;Floor;Building
+A1.03;Jugencoaching;1;A
+A1.05;Stammklasse;1;A
+A1.06;Stammklasse;1;A
+A1.14;Stammklasse;1;A
+A1.15;Stammklasse;1;A
+A1.16;Stammklasse;1;A
+A1.17;Stammklasse;1;A
+A1.23;Stammklasse;1;A
+A2.04;Stammklasse;2;A
+A2.05;Stammklasse;2;A
+A2.06;Stammklasse;2;A
+A2.13;Stammklasse;2;A
+A2.14;Stammklasse;2;A
+A2.20;Stammklasse;2;A
+A3.04;Stammklasse;3;A
+A3.05;Stammklasse;3;A
+A3.12;Stammklasse;3;A
+A3.13;Stammklasse;3;A
+A3.14;Stammklasse;3;A
+A3.19;Stammklasse;3;A
+AH.21;Bibliothek;E;A
+AH.26;Stammklasse;E;A
+AH.32;Naturwissenschaftlicher Raum;E;A
+AU.04;Gymnastikraum;E;A
+B1.06W;Lager;1;B
+B1.07HW;Hardware-Labor;1;B
+B1.08ab;Stammklasse;1;B
+B1.13W;Holz- und Modellbau;1;B
+B1.14W;Wartung und Instandhaltung;1;B
+B1.15HW;Hardwarelabor;1;B
+B2.06L;Baustelle, nicht benützen;2;B
+B2.07aL;Foto- und Gamelabor;2;B
+B2.07bW;Modellierwerkstätte;2;B
+B2.09HW;Hardwarelabor;2;B
+B2.10HW;Hardwarelabor;2;B
+B2.11HW;Hardwarelabor;2;B
+B3.06MF;Multifunktionslabor;3;B
+B3.07MF;Multimedialabor;3;B
+B3.08MF;Multifunktionslabor;3;B
+B3.10MF;Multifunktionslabor;3;B
+B3.11NW;Netzwerklabor;3;B
+B3.12NW;Netzwerklabor;3;B
+B4.07;Besprechungsraum;4;B
+B4.12MF;Multimedialabor;4;B
+B4.14MF;Multifunktionslabor;4;B
+B4.15MF;Multifunktionslabor;4;B
+B4.16MF;Multifunktionslabor;4;B
+B4.17MF;Multifunktionslabor;4;B
+B5.06;Stammklasse;5;B
+B5.07;Stammklasse;5;B
+B5.08;Stammklasse;5;B
+B5.09;Stammklasse;5;B
+B5.10;Stammklasse;5;B
+B5.11;Stammklasse;5;B
+B5.12;Stammklasse;5;B
+B5.13;Stammklasse;5;B
+BH.08W;Netzwerktechnik;E;B
+BH.09aW;Mechanik;E;B
+BH.09bW;CNC-Technik;E;B
+BH.09cW;Blechbearbeitung;E;B
+BH.09dW;Schweisstechnik;E;B
+BH.10aW;Plasmaschneider;E;B
+BH.11W;Mechanik;E;B
+C1.07;Stammklasse;1;C
+C1.10;Stammklasse;1;C
+C1.13;Stammklasse;1;C
+C1.14;Stammklasse;1;C
+C1.17;Stammklasse;1;C
+C2.06;Stammklasse;2;C
+C2.07;Stammklasse;2;C
+C2.08;Stammklasse;2;C
+C2.09;Stammklasse;2;C
+C2.10;Stammklasse;2;C
+C2.11;Stammklasse;2;C
+C2.14;Stammklasse;2;C
+C3.06;Stammklasse;3;C
+C3.07;Stammklasse;3;C
+C3.08;Stammklasse;3;C
+C3.09;Stammklasse;3;C
+C3.10;Stammklasse;3;C
+C3.11;Stammklasse;3;C
+C3.14;Stammklasse;3;C
+C4.06;Stammklasse;4;C
+C4.07;Stammklasse;4;C
+C4.08;Stammklasse;4;C
+C4.09;Stammklasse;4;C
+C4.10;Stammklasse;4;C
+C4.11;Stammklasse;4;C
+C4.14;Stammklasse;4;C
+C5.06;Stammklasse;5;C
+C5.07;Stammklasse;5;C
+C5.08;Stammklasse;5;C
+C5.09;Stammklasse;5;C
+C5.10;Stammklasse;5;C
+CH.09L;Robotik und IoT;E;C
+CH.10aL;Medizintechnik;E;C
+CH.11L;Medizintechnik;E;C
+CH.12L;Innovationslabor;E;C
+CH.13;Stammklasse;E;C
+CH.14a;Stammklasse;E;C
+CU.27;Sporthalle 1;E;C
+CU.28;Sporthalle 2;E;C
+DE.03;Chemiesaal;E;D
+DE.04L;Instrumentelle Analytik;E;D
+DE.05L;Analytik und Prüftechnik;E;D
+DE.06L;Umweltlabor;E;D
+DE.09L;Nasschemisches Labor;E;D
+DE.10W;Reinigungs- und Facilitytechnik;E;D
+DE.11W;Färbe-, Veredlungs- und Verfahrenstechnik;E;D
+DE.12aW;Farblabor;E;D
+DE.13aW;Drucktechnik;E;D
+DE.15L;Versuchsanstalt Prüflabor;E;D
+DE.19L;Informatik-/KÜ-Labor;E;D
+DE.20L;Automatisierungstechnik;E;D
+DE.21L;Elektrotechnik und Elektronik;E;D
+DE.22L;Mess- und Prüftechnik;E;D
+A1.07;Lehrerzimmer;1;A
+A1.13;Lehrerzimmer;1;A
+A2.12;Lehrerzimmer;2;A
+A2.15;Lehrerzimmer;2;A
+A3.11;Lehrerzimmer;3;A
+AH.21;Lehrerzimmer;E;A
+AH.25;Lehrerzimmer;E;A
+B1.12;Lehrerzimmer;1;B
+B1.16A;Lehrerzimmer;1;B
+B2.12A;Lehrerzimmer;2;B
+B3.12;Lehrerzimmer;3;B
+B3.15;Lehrerzimmer;3;B
+B4.06B;Lehrerzimmer;4;B
+B4.08;Lehrerzimmer;4;B
+B4.09;Lehrerzimmer;4;B
+B4.10;Lehrerzimmer;4;B
+B4.11;Lehrerzimmer;4;B
+B4.18A;Lehrerzimmer;4;B
+B5.14;Lehrerzimmer;5;B
+B5.14/B6.02;Lehrerzimmer;5/6;B
+B5.15A;Lehrerzimmer;5;B
+B5.15B;Lehrerzimmer;5;B
+B5.15C;Lehrerzimmer;5;B
+B5.15a;Lehrerzimmer;5;B
+B5.18A;Lehrerzimmer;5;B
+B5.18B;Lehrerzimmer;5;B
+B5.18C;Lehrerzimmer;5;B
+B5.19;Lehrerzimmer;5;B
+B6.02;Lehrerzimmer;6;B
+BH.08C;Lehrerzimmer;E;B
+BH.10B;Lehrerzimmer;E;B
+C1.16a;Lehrerzimmer;1;C
+C2.12;Lehrerzimmer;2;C
+C3.12;Lehrerzimmer;3;C
+C4.12;Lehrerzimmer;4;C
+C5.11;Lehrerzimmer;5;C
+CU.08;Lehrerzimmer;E;C
+CU.14;Lehrerzimmer;E;C
+CU.20;Lehrerzimmer;E;C
+DE.13;Lehrerzimmer;E;D
+DE.15;Lehrerzimmer;E;D
+DE.16;Lehrerzimmer;E;D
+VAS;Veranstaltungssaal;;
+WAKL;Wanderklasse;;
+DISTL;Distance Learning;;
+BLA;Betriebslaboratorium;;
