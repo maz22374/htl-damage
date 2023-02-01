@@ -42,15 +42,15 @@ namespace HtlDamage.Application.Infrastructure
             {
                 var usersCsv = csv.GetRecords<UserDto>();
                 var users = usersCsv
-                  .Select(r =>
-                  {
+                    .Select(r =>
+                    {
                       return new User(
                                 firstName: r.FirstName,
                                 lastName: r.LastName,
                                 userName: r.UserName,
                                 schoolClass: r.SchoolClass);
-                  })
-                  .ToList();
+                    })
+                    .ToList();
 
                 Users.AddRange(users);
                 SaveChanges();
@@ -88,7 +88,7 @@ namespace HtlDamage.Application.Infrastructure
                 var rooms = roomsCsv
                     .Where(r => categories.Any(c => c.Name == r.RoomCategory))
                     .Select(r =>
-                {
+                    {
                     var category = categories.First(c => c.Name == r.RoomCategory);
 
                     return new Room(
@@ -96,8 +96,8 @@ namespace HtlDamage.Application.Infrastructure
                             floor: r.Floor,
                             building: r.Building,
                             roomNumber: r.RoomNumber);
-                })
-                .ToList();
+                    })
+                    .ToList();
 
                 Rooms.AddRange(rooms);
                 SaveChanges();
