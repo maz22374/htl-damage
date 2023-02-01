@@ -13,7 +13,7 @@ Lege im Verzeichnis *HtlDamage.Webapi* die Datei *appsettings.Development.json* 
 ```javascript
 {
   "ConnectionStrings": {
-    "SqlServer": "Server=127.0.0.1,1433;Initial Catalog=FitDb;User Id=sa;Password=SqlServer2019"
+    "SqlServer": "Server=127.0.0.1,1433;Initial Catalog=HtlDamage;User Id=sa;Password=SqlServer2019"
   },
   "Searchuser": "",
   "Searchpass": "",
