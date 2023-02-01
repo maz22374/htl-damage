@@ -14,7 +14,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="Data\Room.CSV">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Data\User.CSV">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>

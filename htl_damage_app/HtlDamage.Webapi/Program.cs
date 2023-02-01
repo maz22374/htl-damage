@@ -8,9 +8,12 @@ using Microsoft.Extensions.Hosting;
 using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using HtlDamage.Application.Dto;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // JWT Authentication ******************************************************************************
+
 byte[] secret = Convert.FromBase64String(builder.Configuration["JwtSecret"]);
 builder.Services
     .AddAuthentication(options => options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme)
@@ -24,10 +27,11 @@ builder.Services
             ValidateIssuer = false
         };
     });
+
 // *************************************************************************************************
 
 builder.Services.AddControllers();
-builder.Services.AddAutoMapper(typeof(HtlDamage.Application.Dto.MappingProfile));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddDbContext<DamageContext>(opt =>
 {
     opt.UseSqlServer(
