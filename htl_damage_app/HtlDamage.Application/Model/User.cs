@@ -28,5 +28,6 @@ namespace HtlDamage.Application.Model
         public string LastName { get; set; }
         public string UserName { get; set; }
         public string? SchoolClass { get; set; }
+        public List<Damage> Damages { get; } = new();
     }
 }
