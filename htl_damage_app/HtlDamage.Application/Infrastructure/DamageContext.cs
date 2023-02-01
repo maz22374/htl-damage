@@ -22,6 +22,7 @@ namespace HtlDamage.Application.Infrastructure
         public DbSet<Damage> Damages => Set<Damage>();
         public DbSet<User> Users => Set<User>();
         public DbSet<RoomCategory> RoomCategories => Set<RoomCategory>();
+        public DbSet<Room> Rooms => Set<Room>();
 
         public void Seed()
         {
@@ -35,27 +36,35 @@ namespace HtlDamage.Application.Infrastructure
             };
 
             // Users
-            var fileNameUsers = Path.Combine("Data", "User.CSV");
-            using (var fs = File.Open(fileNameUsers, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var fs = File.Open(Path.Combine("Data", "User.CSV"), FileMode.Open, FileAccess.Read, FileShare.Read))
             using (var reader = new StreamReader(fs, Encoding.UTF8))
             using (var csv = new CsvReader(reader, config))
             {
-                csv.Context.RegisterClassMap<UserCsv>();
-                var users = csv.GetRecords<User>();
+                var usersCsv = csv.GetRecords<UserDto>();
+                var users = usersCsv
+                  .Select(r =>
+                  {
+                      return new User(
+                                firstName: r.FirstName,
+                                lastName: r.LastName,
+                                userName: r.UserName,
+                                schoolClass: r.SchoolClass);
+                  })
+                  .ToList();
+
                 Users.AddRange(users);
                 SaveChanges();
             }
 
             // Room Categories
-            var fileNameRooms = Path.Combine("Data", "Room.CSV");
-            using (var fs = File.Open(fileNameRooms, FileMode.Open, FileAccess.Read, FileShare.Read))
+            var categories = new List<RoomCategory>();
+            using (var fs = File.Open(Path.Combine("Data", "Room.CSV"), FileMode.Open, FileAccess.Read, FileShare.Read))
             using (var reader = new StreamReader(fs, Encoding.UTF8))
             using (var csv = new CsvReader(reader, config))
             {
                 csv.Read();
                 csv.ReadHeader();
 
-                var categories = new List<RoomCategory>();
                 var uniqueCategories = new HashSet<string>();
                 while (csv.Read())
                 {
@@ -65,7 +74,32 @@ namespace HtlDamage.Application.Infrastructure
                         categories.Add(new RoomCategory(name: category));
                     }
                 }
+
                 RoomCategories.AddRange(categories);
+                SaveChanges();
+            }
+
+            // Rooms
+            using (var fs = File.Open(Path.Combine("Data", "Room.CSV"), FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var reader = new StreamReader(fs, Encoding.UTF8))
+            using (var csv = new CsvReader(reader, config))
+            {
+                var roomsCsv = csv.GetRecords<RoomDto>();
+                var rooms = roomsCsv
+                    .Where(r => categories.Any(c => c.Name == r.RoomCategory))
+                    .Select(r =>
+                {
+                    var category = categories.First(c => c.Name == r.RoomCategory);
+
+                    return new Room(
+                            roomCategory: category,
+                            floor: r.Floor,
+                            building: r.Building,
+                            roomNumber: r.RoomNumber);
+                })
+                .ToList();
+
+                Rooms.AddRange(rooms);
                 SaveChanges();
             }
         }

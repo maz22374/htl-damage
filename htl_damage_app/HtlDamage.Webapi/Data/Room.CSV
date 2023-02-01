@@ -120,7 +120,6 @@ A1.13;Lehrerzimmer;1;A
 A2.12;Lehrerzimmer;2;A
 A2.15;Lehrerzimmer;2;A
 A3.11;Lehrerzimmer;3;A
-AH.21;Lehrerzimmer;E;A
 AH.25;Lehrerzimmer;E;A
 B1.12;Lehrerzimmer;1;B
 B1.16A;Lehrerzimmer;1;B
@@ -138,7 +137,6 @@ B5.14/B6.02;Lehrerzimmer;5/6;B
 B5.15A;Lehrerzimmer;5;B
 B5.15B;Lehrerzimmer;5;B
 B5.15C;Lehrerzimmer;5;B
-B5.15a;Lehrerzimmer;5;B
 B5.18A;Lehrerzimmer;5;B
 B5.18B;Lehrerzimmer;5;B
 B5.18C;Lehrerzimmer;5;B
@@ -157,7 +155,4 @@ CU.20;Lehrerzimmer;E;C
 DE.13;Lehrerzimmer;E;D
 DE.15;Lehrerzimmer;E;D
 DE.16;Lehrerzimmer;E;D
-VAS;Veranstaltungssaal;;
-WAKL;Wanderklasse;;
-DISTL;Distance Learning;;
-BLA;Betriebslaboratorium;;
+VAS;Veranstaltungssaal;E;B
