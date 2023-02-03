@@ -73,7 +73,7 @@ namespace HtlDamage.Application.Infrastructure
 
             // Rooms
             var rooms = new List<Room>();
-            var categories = new List<RoomCategory>();
+            var roomCategories = new List<RoomCategory>();
             using (var reader = new StreamReader(Path.Combine("Data", "Room.CSV"), Encoding.UTF8))
             using (var csv = new CsvReader(reader, config))
             {
@@ -81,12 +81,13 @@ namespace HtlDamage.Application.Infrastructure
                 rooms = roomsCsv
                     .Select(r =>
                     {
-                        var category = categories.FirstOrDefault(c => c.Name == r.RoomCategory);
+                        var category = roomCategories.FirstOrDefault(c => c.Name == r.RoomCategory);
                         if (category is null)
                         {
                             category = new RoomCategory(name: r.RoomCategory);
-                            categories.Add(category);
+                            roomCategories.Add(category);
                         }
+
                         return new Room(
                                 roomCategory: category,
                                 floor: r.Floor,
@@ -95,8 +96,9 @@ namespace HtlDamage.Application.Infrastructure
                     })
                     .ToList();
 
-                RoomCategories.AddRange(categories);
+                RoomCategories.AddRange(roomCategories);
                 SaveChanges();
+
                 Rooms.AddRange(rooms);
                 SaveChanges();
             }
@@ -114,7 +116,7 @@ namespace HtlDamage.Application.Infrastructure
                 "1CHIF"
             };
 
-            var tachers = new string[] { "SZ", "KRB", "NAI", "MIP", "ZUM" };
+            var teachers = new string[] { "SZ", "KRB", "NAI", "MIP", "ZUM" };
             var lessons = new Faker<Lesson>("de").CustomInstantiator(f =>
             {
                 var randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
@@ -127,9 +129,8 @@ namespace HtlDamage.Application.Infrastructure
                     date: randomDate.Date.AddSeconds(f.Random.Int(8 * 3600, 17 * 3600)),
                     lessonNumber: f.Random.Int(1, 10),
                     schoolClass: f.Random.ListItem(schoolClasses),
-                    teacherId: f.Random.ListItem(tachers),
-                    room: f.Random.ListItem(rooms)
-                );
+                    teacherId: f.Random.ListItem(teachers),
+                    room: f.Random.ListItem(rooms));
             })
                 .Generate(30)
                 .OrderBy(e => e.Date)
