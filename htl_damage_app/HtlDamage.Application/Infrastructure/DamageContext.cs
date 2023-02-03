@@ -5,6 +5,7 @@ using CsvHelper.Configuration;
 using HtlDamage.Application.Dto;
 using HtlDamage.Application.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Org.BouncyCastle.Asn1.Crmf;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,11 @@ namespace HtlDamage.Application.Infrastructure
         public DamageContext(DbContextOptions<DamageContext> opt) : base(opt) { }
 
         public DbSet<Damage> Damages => Set<Damage>();
+        public DbSet<DamageCategory> DamageCategories => Set<DamageCategory>();
+        public DbSet<DamageRecipient> DamageRecipients => Set<DamageRecipient>();
         public DbSet<User> Users => Set<User>();
+        public DbSet<Teacher> Teachers => Set<Teacher>();
+        public DbSet<Student> Students => Set<Student>();
         public DbSet<RoomCategory> RoomCategories => Set<RoomCategory>();
         public DbSet<Room> Rooms => Set<Room>();
         public DbSet<Lesson> Lessons => Set<Lesson>();
@@ -40,19 +45,25 @@ namespace HtlDamage.Application.Infrastructure
 
             // Users
             var users = new List<User>();
-            using (var fs = File.Open(Path.Combine("Data", "User.CSV"), FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (var reader = new StreamReader(fs, Encoding.UTF8))
+            using (var reader = new StreamReader(Path.Combine("Data", "User.CSV"), Encoding.UTF8))
             using (var csv = new CsvReader(reader, config))
             {
                 var usersCsv = csv.GetRecords<UserDto>();
                 users = usersCsv
                     .Select(r =>
                     {
-                        return new User(
-                                  firstName: r.FirstName,
-                                  lastName: r.LastName,
-                                  userName: r.UserName,
-                                  schoolClass: r.SchoolClass);
+                        return string.IsNullOrEmpty(r.SchoolClass) switch
+                        {
+                            false => new Student(
+                                firstName: r.FirstName,
+                                lastName: r.LastName,
+                                userName: r.UserName,
+                                schoolClass: r.SchoolClass) as User,
+                            _ => new Teacher(
+                                firstName: r.FirstName,
+                                lastName: r.LastName,
+                                userName: r.UserName) as User
+                        };
                     })
                     .ToList();
 
@@ -60,42 +71,22 @@ namespace HtlDamage.Application.Infrastructure
                 SaveChanges();
             }
 
-            // Room Categories
-            var categories = new List<RoomCategory>();
-            using (var fs = File.Open(Path.Combine("Data", "Room.CSV"), FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (var reader = new StreamReader(fs, Encoding.UTF8))
-            using (var csv = new CsvReader(reader, config))
-            {
-                csv.Read();
-                csv.ReadHeader();
-
-                var uniqueCategories = new HashSet<string>();
-                while (csv.Read())
-                {
-                    var category = csv.GetField("RoomCategory");
-                    if (!string.IsNullOrEmpty(category) && uniqueCategories.Add(category))
-                    {
-                        categories.Add(new RoomCategory(name: category));
-                    }
-                }
-
-                RoomCategories.AddRange(categories);
-                SaveChanges();
-            }
-
             // Rooms
             var rooms = new List<Room>();
-            using (var fs = File.Open(Path.Combine("Data", "Room.CSV"), FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (var reader = new StreamReader(fs, Encoding.UTF8))
+            var categories = new List<RoomCategory>();
+            using (var reader = new StreamReader(Path.Combine("Data", "Room.CSV"), Encoding.UTF8))
             using (var csv = new CsvReader(reader, config))
             {
                 var roomsCsv = csv.GetRecords<RoomDto>();
                 rooms = roomsCsv
-                    .Where(r => categories.Any(c => c.Name == r.RoomCategory))
                     .Select(r =>
                     {
-                        var category = categories.First(c => c.Name == r.RoomCategory);
-
+                        var category = categories.FirstOrDefault(c => c.Name == r.RoomCategory);
+                        if (category is null)
+                        {
+                            category = new RoomCategory(name: r.RoomCategory);
+                            categories.Add(category);
+                        }
                         return new Room(
                                 roomCategory: category,
                                 floor: r.Floor,
@@ -104,24 +95,10 @@ namespace HtlDamage.Application.Infrastructure
                     })
                     .ToList();
 
+                RoomCategories.AddRange(categories);
+                SaveChanges();
                 Rooms.AddRange(rooms);
                 SaveChanges();
-            }
-
-            // Lessons
-            var teacherId = new List<string>();
-            using (var fs = File.Open(Path.Combine("Data", "User.CSV"), FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (var reader = new StreamReader(fs, Encoding.UTF8))
-            using (var csv = new CsvReader(reader, config))
-            {
-                var usersCsv = csv.GetRecords<UserDto>();
-                teacherId = usersCsv
-                    .Where(r => String.IsNullOrEmpty(r.SchoolClass))
-                    .Select(r =>
-                    {
-                        return r.UserName;
-                    })
-                    .ToList();
             }
 
             string[] schoolClasses = new string[]
@@ -137,19 +114,21 @@ namespace HtlDamage.Application.Infrastructure
                 "1CHIF"
             };
 
+            var tachers = new string[] { "SZ", "KRB", "NAI", "MIP", "ZUM" };
             var lessons = new Faker<Lesson>("de").CustomInstantiator(f =>
             {
-                var randomDate = f.Date.Between(start: DateTime.MinValue, end: DateTime.MaxValue);
+                var randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
                 while (randomDate.DayOfWeek == DayOfWeek.Saturday || randomDate.DayOfWeek == DayOfWeek.Sunday)
                 {
-                    randomDate = f.Date.Between(start: DateTime.MinValue, end: DateTime.MaxValue);
+                    randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
                 }
 
                 return new Lesson(
                     date: randomDate.Date.AddSeconds(f.Random.Int(8 * 3600, 17 * 3600)),
                     lessonNumber: f.Random.Int(1, 10),
                     schoolClass: f.Random.ListItem(schoolClasses),
-                    teacherId: f.Random.ListItem(teacherId)
+                    teacherId: f.Random.ListItem(tachers),
+                    room: f.Random.ListItem(rooms)
                 );
             })
                 .Generate(30)
@@ -159,24 +138,48 @@ namespace HtlDamage.Application.Infrastructure
             Lessons.AddRange(lessons);
             SaveChanges();
 
+            // DamageCategories 
+            var damageCategories = new DamageCategory[] {
+                new DamageCategory(name: "Verschmutzung"),
+                new DamageCategory(name: "Reparatur"),
+                new DamageCategory(name: "Sicherheitsgefährdend")
+            };
+
+            DamageCategories.AddRange(damageCategories);
+            SaveChanges();
+
+            // DamageRecipients
+            var emails = new string[] { "maz22374@spengergasse.at", "zhe22045@spengergasse.at", "rad22669@spengergasse.at" };
+            var damageRecipients = new Faker<DamageRecipient>("de").CustomInstantiator(f =>
+            {
+                return new DamageRecipient(
+                    email: f.Random.ListItem(emails),
+                    damageCategory: f.Random.ListItem(damageCategories));
+            })
+                .Generate(20)
+                .ToList();
+
+            DamageRecipients.AddRange(damageRecipients);
+            SaveChanges();
+
             // Damages
             var damages = new Faker<Damage>("de").CustomInstantiator(f =>
             {
-                var randomDate = f.Date.Between(start: DateTime.MinValue, end: DateTime.MaxValue);
+                var randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
                 while (randomDate.DayOfWeek == DayOfWeek.Saturday || randomDate.DayOfWeek == DayOfWeek.Sunday)
                 {
-                    randomDate = f.Date.Between(start: DateTime.MinValue, end: DateTime.MaxValue);
+                    randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
                 }
 
                 var damage = new Damage(
                     name: f.Lorem.Sentence(f.Random.Int(3, 10)),
                     room: f.Random.ListItem(rooms),
                     created: randomDate,
-                    lastSeen: randomDate,
-                    lesson: f.Random.ListItem(lessons));
+                    lastSeen: randomDate.AddSeconds(67412),
+                    lesson: f.Random.ListItem(lessons),
+                    damageCategory: f.Random.ListItem(damageCategories));
 
-                damage.Users.Add(f.Random.ListItem(users));
-
+                damage.DamageReports.Add(new DamageReport(damage, f.Random.ListItem(users), randomDate));
                 return damage;
             })
                 .Generate(50)
@@ -189,6 +192,8 @@ namespace HtlDamage.Application.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DamageReport>().HasKey(d => new { d.DamageId, d.UserId });
+
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 foreach (var key in entityType.GetForeignKeys())

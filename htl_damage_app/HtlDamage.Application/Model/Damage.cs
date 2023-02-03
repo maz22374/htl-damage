@@ -8,13 +8,14 @@ namespace HtlDamage.Application.Model
 {
     public class Damage
     {
-        public Damage(string name, Room room, DateTime created, DateTime lastSeen, Lesson lesson)
+        public Damage(string name, Room room, DateTime created, DateTime lastSeen, Lesson lesson, DamageCategory damageCategory)
         {
             Name = name;
             Room = room;
             Created = created;
             LastSeen = lastSeen;
             Lesson = lesson;
+            DamageCategory = damageCategory;
         }
 
 #pragma warning disable CS8618
@@ -28,6 +29,7 @@ namespace HtlDamage.Application.Model
         public DateTime Created { get; set; }
         public DateTime LastSeen { get; set; }
         public Lesson Lesson { get; set; }
-        public List<User> Users { get; } = new();
+        public DamageCategory DamageCategory { get; set; }
+        public List<DamageReport> DamageReports { get; } = new();
     }
 }
