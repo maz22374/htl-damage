@@ -10,12 +10,11 @@ namespace HtlDamage.Application.Model
     [Index(nameof(UserName), IsUnique = true)]
     public class User
     {
-        public User(string firstName, string lastName, string userName, string? schoolClass)
+        public User(string firstName, string lastName, string userName)
         {
             FirstName = firstName;
             LastName = lastName;
             UserName = userName;
-            SchoolClass = schoolClass;
         }
 
 #pragma warning disable CS8618 
@@ -27,7 +26,6 @@ namespace HtlDamage.Application.Model
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-        public string? SchoolClass { get; set; }
-        public List<Damage> Damages { get; } = new();
+        public List<DamageReport> DamageReports { get; } = new();
     }
 }

@@ -8,12 +8,13 @@ namespace HtlDamage.Application.Model
 {
     public class Lesson
     {
-        public Lesson(DateTime date, int lessonNumber, string schoolClass, string teacherId)
+        public Lesson(DateTime date, int lessonNumber, string schoolClass, string teacherId, Room room)
         {
             Date = date;
             LessonNumber = lessonNumber;
             SchoolClass = schoolClass;
             TeacherId = teacherId;
+            Room = room;
         }
 
 #pragma warning disable CS8618
@@ -26,5 +27,6 @@ namespace HtlDamage.Application.Model
         public int LessonNumber { get; set; }
         public string SchoolClass { get; set; }
         public string TeacherId { get; set; }
+        public Room Room { get; set; }
     }
 }
