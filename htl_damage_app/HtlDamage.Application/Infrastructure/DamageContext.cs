@@ -65,6 +65,7 @@ namespace HtlDamage.Application.Infrastructure
                                 userName: r.UserName) as User
                         };
                     })
+                    .OrderBy(u => u.UserName)
                     .ToList();
 
                 Users.AddRange(users);
@@ -94,6 +95,7 @@ namespace HtlDamage.Application.Infrastructure
                                 building: r.Building,
                                 roomNumber: r.RoomNumber);
                     })
+                    .OrderBy(r => r.RoomNumber)
                     .ToList();
 
                 RoomCategories.AddRange(roomCategories);
@@ -119,21 +121,25 @@ namespace HtlDamage.Application.Infrastructure
             var teachers = new string[] { "SZ", "KRB", "NAI", "MIP", "ZUM" };
             var lessons = new Faker<Lesson>("de").CustomInstantiator(f =>
             {
+                // Random date
                 var randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
                 while (randomDate.DayOfWeek == DayOfWeek.Saturday || randomDate.DayOfWeek == DayOfWeek.Sunday)
                 {
                     randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
                 }
 
+                // date
+                var date = randomDate.Date.AddSeconds(f.Random.Int(8 * 3600, 17 * 3600));
+
                 return new Lesson(
-                    date: randomDate.Date.AddSeconds(f.Random.Int(8 * 3600, 17 * 3600)),
+                    date: date,
                     lessonNumber: f.Random.Int(1, 10),
                     schoolClass: f.Random.ListItem(schoolClasses),
                     teacherId: f.Random.ListItem(teachers),
                     room: f.Random.ListItem(rooms));
             })
                 .Generate(30)
-                .OrderBy(e => e.Date)
+                .OrderBy(l => l.Date)
                 .ToList();
 
             Lessons.AddRange(lessons);
@@ -158,6 +164,7 @@ namespace HtlDamage.Application.Infrastructure
                     damageCategory: f.Random.ListItem(damageCategories));
             })
                 .Generate(20)
+                .OrderBy(d => d.Email)
                 .ToList();
 
             DamageRecipients.AddRange(damageRecipients);
@@ -166,21 +173,27 @@ namespace HtlDamage.Application.Infrastructure
             // Damages
             var damages = new Faker<Damage>("de").CustomInstantiator(f =>
             {
+                // Random date
                 var randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
                 while (randomDate.DayOfWeek == DayOfWeek.Saturday || randomDate.DayOfWeek == DayOfWeek.Sunday)
                 {
                     randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
                 }
 
+                // Date created
+                var created = randomDate.Date.AddSeconds(f.Random.Int(8 * 3600, 17 * 3600));
+                // Date lastSeen
+                var lastSeen = created.AddDays(f.Random.Int(1, 3)).Date.AddSeconds(f.Random.Int(8 * 3600, 17 * 3600));
+
                 var damage = new Damage(
                     name: f.Lorem.Sentence(f.Random.Int(3, 10)),
                     room: f.Random.ListItem(rooms),
-                    created: randomDate,
-                    lastSeen: randomDate.AddSeconds(67412),
+                    created: created,
+                    lastSeen: lastSeen,
                     lesson: f.Random.ListItem(lessons),
                     damageCategory: f.Random.ListItem(damageCategories));
 
-                damage.DamageReports.Add(new DamageReport(damage, f.Random.ListItem(users), randomDate));
+                damage.DamageReports.Add(new DamageReport(damage, f.Random.ListItem(users), created));
                 return damage;
             })
                 .Generate(50)
