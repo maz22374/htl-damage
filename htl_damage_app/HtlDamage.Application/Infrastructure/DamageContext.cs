@@ -157,17 +157,14 @@ namespace HtlDamage.Application.Infrastructure
 
             // DamageRecipients
             var emails = new string[] { "maz22374@spengergasse.at", "zhe22045@spengergasse.at", "rad22669@spengergasse.at" };
-            var damageRecipients = new Faker<DamageRecipient>("de").CustomInstantiator(f =>
-            {
-                return new DamageRecipient(
-                    email: f.Random.ListItem(emails),
-                    damageCategory: f.Random.ListItem(damageCategories));
-            })
-                .Generate(20)
-                .OrderBy(d => d.Email)
-                .ToList();
 
-            DamageRecipients.AddRange(damageRecipients);
+            for (int i = 0; i < 3; i++)
+            {
+                DamageRecipients.Add(new DamageRecipient(
+                    email: emails[i],
+                    damageCategory: damageCategories[i]));
+            }
+
             SaveChanges();
 
             // Damages
