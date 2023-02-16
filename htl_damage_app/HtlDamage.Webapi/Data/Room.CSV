@@ -29,7 +29,7 @@ B1.08ab;Stammklasse;1;B
 B1.13W;Holz- und Modellbau;1;B
 B1.14W;Wartung und Instandhaltung;1;B
 B1.15HW;Hardwarelabor;1;B
-B2.06L;Medienstudio;2;B
+B2.06L;Baustelle, nicht benützen;2;B
 B2.07aL;Foto- und Gamelabor;2;B
 B2.07bW;Modellierwerkstätte;2;B
 B2.09HW;Hardwarelabor;2;B
@@ -155,73 +155,3 @@ DE.13;Lehrerzimmer;E;D
 DE.15;Lehrerzimmer;E;D
 DE.16;Lehrerzimmer;E;D
 VAS;Veranstaltungssaal;E;B
-C5.03;Lehrer WC Herren;5;C
-C5.02;Lehrer WC Damen;5;C
-C5.15;LAN Raum;5;C
-C5.12;Garderobe;5;C
-C5.13;WC Herren;5;C
-C5.14;WC Damen;5;C
-C5.05;Garderobe;5;C
-B5.24;WC Damen;5;B
-B5.28;Lagerrraum;5;B
-B5.17;Kopierraum;5;B
-B5.14;Küche;5;B
-B5.03;WC Herren;5;B
-B5.02;WC Invalid;5;B
-B5.04;Abstellkammer;5;B
-B5.01a;WC Herren;5;B
-B4.04a;WC Personal;4;B
-B4.07;Besprechungsraum;4;B
-B4.13;Kopierraum;4;B
-B4.15a;Kopierraum;4;B
-B4.19;Stromverteilerraum;4;B
-B4.21;Abstellkammer;4;B
-B4.20;WC Herren;4;B
-B4.24;Stromverteilerraum;4;B
-C4.13;LAN Raum;4;C
-C4.04;WC Damen;4;C
-C4.03;WC Invalid;4;C
-C4.02;WC Herren;4;C
-C3.04;WC Damen;3;C
-C3.03;WC Invalid;3;C
-C3.02;WC Herren;3;C
-C3.13;LAN Raum;3;C
-B3.18;WC Herren;3;B
-B3.15;ZID Raum;3;B
-B3.17;Serverraum;3;B
-B3.11a;Stromverteilerraum;3;B
-B3.09;Stromverteilerraum;3;B
-B3.06a;Stromverteilerraum;3;B
-B3.03;WC Unisex;3;B
-B3.04;WC Invalid;3;B
-A3.03;Pausenrraum;3;A
-A3.20;Medienverleih;3;A
-A3.08;WC Invalid;3;A
-A3.09;Abstellkammer;3;A
-A3.10;WC Herren;3;A
-A3.17;WC Damen;3;A
-A3.18;Abstellkammer;3;A
-A2.19;Archiv;2;A
-A2.18;WC Damen;2;A
-A2.11;WC Herren;2;A
-A2.10;Abstellkammer;2;A
-A2.09;WC Invalid;2;A
-A2.03;Pausenraum;2;A
-B2.04;WC Damen;2;B
-B2.03;WC Invalid;2;B
-B2.08;Stromverteilerraum;2;B
-B2.15;Abstellkammer;2;B
-B2.14;WC Herren;2;B
-B2.18;Stromverteilerraum;2;B
-C2.13;LAN Raum;2;C
-C2.04;WC Damen;2;C
-C2.03;WC Invalid;2;C
-C2.02;WC Herren;2;C
-C1.26;WC Herren;1;C
-C1.28;Terrasse;1;C
-C1.03;Mehrzweckraum;1;C
-C1.04;Mehrzweckraum;1;C
-C1.05;Kantine;1;C
-C1.06a;Büro Abteilungsvorstand;1;C
-C1.06b;Büro Abteilungsvorstand1;C
-
