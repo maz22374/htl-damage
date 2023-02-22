@@ -32,7 +32,7 @@ namespace HtlDamage.Application.Infrastructure
         public DbSet<Room> Rooms => Set<Room>();
         public DbSet<Lesson> Lessons => Set<Lesson>();
 
-        public void Seed()
+        public async Task Seed()
         {
             Randomizer.Seed = new Random(187);
 
@@ -69,7 +69,7 @@ namespace HtlDamage.Application.Infrastructure
                     .ToList();
 
                 Users.AddRange(users);
-                SaveChanges();
+                await SaveChangesAsync();
             }
 
             // Rooms
@@ -99,10 +99,10 @@ namespace HtlDamage.Application.Infrastructure
                     .ToList();
 
                 RoomCategories.AddRange(roomCategories);
-                SaveChanges();
+                await SaveChangesAsync();
 
                 Rooms.AddRange(rooms);
-                SaveChanges();
+                await SaveChangesAsync();
             }
 
             string[] schoolClasses = new string[]
@@ -143,7 +143,7 @@ namespace HtlDamage.Application.Infrastructure
                 .ToList();
 
             Lessons.AddRange(lessons);
-            SaveChanges();
+            await SaveChangesAsync();
 
             // DamageCategories 
             var damageCategories = new DamageCategory[] {
@@ -153,19 +153,23 @@ namespace HtlDamage.Application.Infrastructure
             };
 
             DamageCategories.AddRange(damageCategories);
-            SaveChanges();
+            await SaveChangesAsync();
 
             // DamageRecipients
             var emails = new string[] { "maz22374@spengergasse.at", "zhe22045@spengergasse.at", "rad22669@spengergasse.at" };
 
-            for (int i = 0; i < 3; i++)
+            var damageRecipients = new Faker<DamageRecipient>("de").CustomInstantiator(f =>
             {
-                DamageRecipients.Add(new DamageRecipient(
-                    email: emails[i],
-                    damageCategory: damageCategories[i]));
-            }
+                return new DamageRecipient(
+                    email: f.Random.ListItem(emails),
+                    damageCategory: f.Random.ListItem(damageCategories));
+            })
+                .Generate(10)
+                .GroupBy(d => new { d.Email, d.DamageCategoryId }).Select(g => g.First())
+                .ToList();
 
-            SaveChanges();
+            DamageRecipients.AddRange(damageRecipients);
+            await SaveChangesAsync();
 
             // Damages
             var damages = new Faker<Damage>("de").CustomInstantiator(f =>
@@ -198,12 +202,13 @@ namespace HtlDamage.Application.Infrastructure
                 .ToList();
 
             Damages.AddRange(damages);
-            SaveChanges();
+            await SaveChangesAsync();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DamageReport>().HasKey(d => new { d.DamageId, d.UserId });
+            modelBuilder.Entity<DamageRecipient>().HasIndex(d => new { d.DamageCategoryId, d.Email }).IsUnique();
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
