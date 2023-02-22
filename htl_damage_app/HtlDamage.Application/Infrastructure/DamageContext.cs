@@ -35,6 +35,7 @@ namespace HtlDamage.Application.Infrastructure
         public async Task Seed()
         {
             Randomizer.Seed = new Random(187);
+            var faker = new Faker();
 
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
@@ -58,11 +59,13 @@ namespace HtlDamage.Application.Infrastructure
                                 firstName: r.FirstName,
                                 lastName: r.LastName,
                                 userName: r.UserName,
-                                schoolClass: r.SchoolClass) as User,
+                                schoolClass: r.SchoolClass)
+                            { Guid = faker.Random.Guid() } as User,
                             _ => new Teacher(
                                 firstName: r.FirstName,
                                 lastName: r.LastName,
-                                userName: r.UserName) as User
+                                userName: r.UserName)
+                            { Guid = faker.Random.Guid() } as User
                         };
                     })
                     .OrderBy(u => u.UserName)
@@ -85,7 +88,7 @@ namespace HtlDamage.Application.Infrastructure
                         var category = roomCategories.FirstOrDefault(c => c.Name == r.RoomCategory);
                         if (category is null)
                         {
-                            category = new RoomCategory(name: r.RoomCategory);
+                            category = new RoomCategory(name: r.RoomCategory) { Guid = faker.Random.Guid() };
                             roomCategories.Add(category);
                         }
 
@@ -93,7 +96,8 @@ namespace HtlDamage.Application.Infrastructure
                                 roomCategory: category,
                                 floor: r.Floor,
                                 building: r.Building,
-                                roomNumber: r.RoomNumber);
+                                roomNumber: r.RoomNumber)
+                        { Guid = faker.Random.Guid() };
                     })
                     .OrderBy(r => r.RoomNumber)
                     .ToList();
@@ -122,10 +126,10 @@ namespace HtlDamage.Application.Infrastructure
             var lessons = new Faker<Lesson>("de").CustomInstantiator(f =>
             {
                 // Random date
-                var randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
+                var randomDate = f.Date.Between(start: new DateTime(2022, 9, 1), end: new DateTime(2023, 6, 1));
                 while (randomDate.DayOfWeek == DayOfWeek.Saturday || randomDate.DayOfWeek == DayOfWeek.Sunday)
                 {
-                    randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
+                    randomDate = f.Date.Between(start: new DateTime(2022, 9, 1), end: new DateTime(2023, 6, 1));
                 }
 
                 // date
@@ -136,7 +140,8 @@ namespace HtlDamage.Application.Infrastructure
                     lessonNumber: f.Random.Int(1, 10),
                     schoolClass: f.Random.ListItem(schoolClasses),
                     teacherId: f.Random.ListItem(teachers),
-                    room: f.Random.ListItem(rooms));
+                    room: f.Random.ListItem(rooms))
+                { Guid = f.Random.Guid() };
             })
                 .Generate(30)
                 .OrderBy(l => l.Date)
@@ -147,9 +152,9 @@ namespace HtlDamage.Application.Infrastructure
 
             // DamageCategories 
             var damageCategories = new DamageCategory[] {
-                new DamageCategory(name: "Verschmutzung"),
-                new DamageCategory(name: "Reparatur"),
-                new DamageCategory(name: "Sicherheitsgefährdend")
+                new DamageCategory(name: "Verschmutzung") { Guid = faker.Random.Guid() },
+                new DamageCategory(name: "Reparatur") { Guid = faker.Random.Guid() },
+                new DamageCategory(name: "Sicherheitsgefährdend") { Guid = faker.Random.Guid() }
             };
 
             DamageCategories.AddRange(damageCategories);
@@ -162,7 +167,8 @@ namespace HtlDamage.Application.Infrastructure
             {
                 return new DamageRecipient(
                     email: f.Random.ListItem(emails),
-                    damageCategory: f.Random.ListItem(damageCategories));
+                    damageCategory: f.Random.ListItem(damageCategories))
+                { Guid = f.Random.Guid() };
             })
                 .Generate(10)
                 .GroupBy(d => new { d.Email, d.DamageCategoryId }).Select(g => g.First())
@@ -175,10 +181,10 @@ namespace HtlDamage.Application.Infrastructure
             var damages = new Faker<Damage>("de").CustomInstantiator(f =>
             {
                 // Random date
-                var randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
+                var randomDate = f.Date.Between(start: new DateTime(2022, 9, 1), end: new DateTime(2023, 6, 1));
                 while (randomDate.DayOfWeek == DayOfWeek.Saturday || randomDate.DayOfWeek == DayOfWeek.Sunday)
                 {
-                    randomDate = f.Date.Between(start: new DateTime(2021, 1, 1), end: new DateTime(2023, 1, 1));
+                    randomDate = f.Date.Between(start: new DateTime(2022, 9, 1), end: new DateTime(2023, 6, 1));
                 }
 
                 // Date created
@@ -192,9 +198,11 @@ namespace HtlDamage.Application.Infrastructure
                     created: created,
                     lastSeen: lastSeen,
                     lesson: f.Random.ListItem(lessons),
-                    damageCategory: f.Random.ListItem(damageCategories));
+                    damageCategory: f.Random.ListItem(damageCategories))
+                { Guid = f.Random.Guid() };
 
                 damage.DamageReports.Add(new DamageReport(damage, f.Random.ListItem(users), created));
+                damage.DamageReports.Add(new DamageReport(damage, f.Random.ListItem(users), lastSeen));
                 return damage;
             })
                 .Generate(50)
