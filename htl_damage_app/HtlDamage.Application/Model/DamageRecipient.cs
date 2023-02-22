@@ -8,6 +8,7 @@ namespace HtlDamage.Application.Model
         {
             Email = email;
             DamageCategory = damageCategory;
+            DamageCategoryId = damageCategory.Id;
         }
 
 #pragma warning disable CS8618
@@ -17,6 +18,7 @@ namespace HtlDamage.Application.Model
         public int Id { get; private set; }
         public Guid Guid { get; set; }
         public string Email { get; set; }
+        public int DamageCategoryId { get; set; }
         public DamageCategory DamageCategory { get; set; }
     }
 }

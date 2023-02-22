@@ -1,6 +1,8 @@
 ﻿using HtlDamage.Application.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HtlDamage.Webapi.Controllers
 {
@@ -16,9 +18,9 @@ namespace HtlDamage.Webapi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllCompanies()
+        public async Task<IActionResult> GetAllDamages()
         {
-            var damages = _db.Damages.OrderBy(c => c.Name).ToList();
+            var damages = await _db.Damages.OrderBy(c => c.Name).ToListAsync();
             return Ok(damages);
         }
     }
