@@ -1,6 +1,5 @@
 ﻿using Novell.Directory.Ldap;
 
-
 namespace HtlDamage.Application.Extensions
 {
     public static class LdapEntryExtensions
