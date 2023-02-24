@@ -10,7 +10,6 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text.Json;
 
 namespace HtlDamage.Webapi.Controllers
 {
@@ -24,6 +23,7 @@ namespace HtlDamage.Webapi.Controllers
 
         private readonly IConfiguration _config;
         private readonly bool _isDevelopment;
+
         public UserController(IHostEnvironment _env, IConfiguration config)
         {
             _config = config;
@@ -56,9 +56,9 @@ namespace HtlDamage.Webapi.Controllers
                     // Payload for our JWT.
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                new Claim(ClaimTypes.Name, currentUser.Cn),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, role.ToString()),
-                new Claim("AdUser", currentUser.ToJson())
+                        new Claim(ClaimTypes.Name, currentUser.Cn),
+                        new Claim(ClaimsIdentity.DefaultRoleClaimType, role.ToString()),
+                        new Claim("AdUser", currentUser.ToJson())
                     }),
                     Expires = DateTime.UtcNow + lifetime,
                     SigningCredentials = new SigningCredentials(
