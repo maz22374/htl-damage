@@ -9,6 +9,8 @@ using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using HtlDamage.Application.Dto;
+using HtlDamage.Webapi;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +37,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddDbContext<DamageContext>(opt =>
 {
     opt.UseSqlServer(
-        builder.Configuration.GetConnectionString("SqlServer"),
+        builder.Configuration.GetConnectionString("Default"),
         o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
 });
 
@@ -54,16 +56,33 @@ if (builder.Environment.IsDevelopment())
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
-    using (var scope = app.Services.CreateScope())
+    // We will create a fresh sql server container in development mode. For performance reasons,
+    // you can disable deleteAfterShutdown because in development mode the database is deleted
+    // before it is generated.
+    try
     {
-        using (var db = scope.ServiceProvider.GetRequiredService<DamageContext>())
-        {
-            db.Database.EnsureDeleted();
-            db.Database.EnsureCreated();
-            await db.Seed();
-        }
+        // For mariaDb or Postgres see comment in WebApplicationDockerExtensions.cs at method UseMariaDbContainer()
+        await app.UseSqlServerContainer(
+            containerName: "htldamage_sqlserver2019", version: "latest",
+            connectionString: app.Configuration.GetConnectionString("Default"),
+            deleteAfterShutdown: false);
     }
+    catch (Exception e)
+    {
+        app.Logger.LogError(e.Message);
+        return;
+    }
+
     app.UseCors();
+}
+
+// Creating the database.
+using (var scope = app.Services.CreateScope())
+{
+    using (var db = scope.ServiceProvider.GetRequiredService<DamageContext>())
+    {
+        await db.CreateDatabase(isDevelopment: app.Environment.IsDevelopment());
+    }
 }
 
 app.MapControllers();

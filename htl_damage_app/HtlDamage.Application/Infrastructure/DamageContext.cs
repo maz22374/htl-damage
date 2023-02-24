@@ -2,6 +2,7 @@
 using Bogus.DataSets;
 using CsvHelper;
 using CsvHelper.Configuration;
+using Docker.DotNet.Models;
 using HtlDamage.Application.Dto;
 using HtlDamage.Application.Model;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,41 @@ namespace HtlDamage.Application.Infrastructure
         public DbSet<RoomCategory> RoomCategories => Set<RoomCategory>();
         public DbSet<Room> Rooms => Set<Room>();
         public DbSet<Lesson> Lessons => Set<Lesson>();
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<DamageReport>().HasKey(d => new { d.DamageId, d.UserId });
+            modelBuilder.Entity<DamageRecipient>().HasIndex(d => new { d.DamageCategoryId, d.Email }).IsUnique();
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                foreach (var key in entityType.GetForeignKeys())
+                    key.DeleteBehavior = DeleteBehavior.Restrict;
+
+                foreach (var prop in entityType.GetDeclaredProperties())
+                {
+                    if (prop.Name == "Guid")
+                    {
+                        modelBuilder.Entity(entityType.ClrType).HasAlternateKey("Guid");
+                        prop.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAdd;
+                    }
+
+                    if (prop.ClrType == typeof(string) && prop.GetMaxLength() is null) prop.SetMaxLength(255);
+                    if (prop.ClrType == typeof(DateTime)) prop.SetPrecision(3);
+                    if (prop.ClrType == typeof(DateTime?)) prop.SetPrecision(3);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Initialize the database with some values (holidays, ...).
+        /// Unlike Seed, this method is also called in production.
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        private void Initialize()
+        {
+
+        }
 
         public async Task Seed()
         {
@@ -213,29 +249,14 @@ namespace HtlDamage.Application.Infrastructure
             await SaveChangesAsync();
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public async Task CreateDatabase(bool isDevelopment)
         {
-            modelBuilder.Entity<DamageReport>().HasKey(d => new { d.DamageId, d.UserId });
-            modelBuilder.Entity<DamageRecipient>().HasIndex(d => new { d.DamageCategoryId, d.Email }).IsUnique();
-
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                foreach (var key in entityType.GetForeignKeys())
-                    key.DeleteBehavior = DeleteBehavior.Restrict;
-
-                foreach (var prop in entityType.GetDeclaredProperties())
-                {
-                    if (prop.Name == "Guid")
-                    {
-                        modelBuilder.Entity(entityType.ClrType).HasAlternateKey("Guid");
-                        prop.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAdd;
-                    }
-
-                    if (prop.ClrType == typeof(string) && prop.GetMaxLength() is null) prop.SetMaxLength(255);
-                    if (prop.ClrType == typeof(DateTime)) prop.SetPrecision(3);
-                    if (prop.ClrType == typeof(DateTime?)) prop.SetPrecision(3);
-                }
-            }
+            if (isDevelopment) { Database.EnsureDeleted(); }
+            // EnsureCreated only creates the model if the database does not exist or it has no
+            // tables. Returns true if the schema was created.  Returns false if there are
+            // existing tables in the database. This avoids initializing multiple times.
+            if (Database.EnsureCreated()) { Initialize(); }
+            if (isDevelopment) await Seed();
         }
     }
 }
