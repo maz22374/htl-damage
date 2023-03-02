@@ -1,53 +1,46 @@
-﻿using HtlDamage.Application.Infrastructure;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using HtlDamage.Application.Dto;
+using HtlDamage.Application.Infrastructure;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Novell.Directory.Ldap;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System;
+using Microsoft.Extensions.Hosting;
 
-namespace HtlDamage.Webapi.Controllers
+namespace HtlDamage.Webapi.Services
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [AllowAnonymous]
-    public class UserController : ControllerBase
+    public class AuthService
     {
-        // DTO class for the JSON body of the login request
-        public record CredentialsDto(string Username, string Password);
-
         private readonly IConfiguration _config;
         private readonly bool _isDevelopment;
 
-        public UserController(IHostEnvironment _env, IConfiguration config)
+        public AuthService(IHostEnvironment _env, IConfiguration config)
         {
             _config = config;
             _isDevelopment = _env.IsDevelopment();
         }
 
-        /// <summary>
-        /// POST /api/user/login
-        /// </summary>
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] CredentialsDto credentials)
+        public (bool isSuccess, object? payload, string? errorMessage) Login(CredentialsDto credentials)
         {
             var lifetime = TimeSpan.FromHours(3);
             var searchuser = _config["Searchuser"];
             var searchpass = _config["Searchpass"];
             var secret = Convert.FromBase64String(_config["JwtSecret"]);
             var localAdmins = _config["LocalAdmins"].Split(",");
+
             try
             {
                 using var service = _isDevelopment && !string.IsNullOrEmpty(searchuser)
                     ? AdService.Login(searchuser, searchpass, credentials.Username)
                     : AdService.Login(credentials.Username, credentials.Password);
                 var currentUser = service.CurrentUser;
-                if (currentUser is null) { return Unauthorized(); }
+                if (currentUser is null)
+                {
+                    return (false, null, "Invalid username or password");
+                }
+
                 var role = localAdmins.Contains(currentUser.Cn) ? AdUserRole.Management : currentUser.Role;
 
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -66,35 +59,30 @@ namespace HtlDamage.Webapi.Controllers
                         SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-                return Ok(new
+
+                return (true, new
                 {
                     Username = currentUser.Cn,
                     IsAdmin = role == AdUserRole.Management,
                     Token = tokenHandler.WriteToken(token)
-                });
+                }, null);
             }
             catch (LdapException e)
             {
-                return Unauthorized(e.Message);
+                return (false, null, e.Message);
             }
             catch (ApplicationException e)
             {
-                return Unauthorized(e.Message);
+                return (false, null, e.Message);
             }
         }
 
-        /// <summary>
-        /// GET /api/user/me
-        /// Gets information about the current (authenticated) user.
-        /// </summary>
-        [Authorize]
-        [HttpGet("me")]
-        public IActionResult GetUserdata()
+        public (AdUser? user, string? errorMessage) GetUserdata(ClaimsPrincipal user)
         {
-            var adUserJson = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "AdUser")?.Value;
-            if (adUserJson is null) { return BadRequest(); }
-
-            return Ok(AdUser.FromJson(adUserJson));
+            var adUserJson = user.Claims.FirstOrDefault(c => c.Type == "AdUser")?.Value;
+            if (adUserJson is null) return (null, "User data not found in JWT token");
+            var adUser = AdUser.FromJson(adUserJson);
+            return (adUser, null);
         }
     }
 }
