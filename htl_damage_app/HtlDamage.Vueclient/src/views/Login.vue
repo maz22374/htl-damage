@@ -1,91 +1,95 @@
 <script setup>
-import axios from 'axios';
+import axios from "axios";
 </script>
 
 <template>
-    <div class="loginView">
-        <div v-if="!authenticated">
-            <p class="mb-3">
-                Melde dich mit deinem Schulaccount an, um die App zu testen.
-            </p>
-            <div class="formRow">
-                <label>Username:</label>
-                <input class="form-control" v-model="model.username" type="text" />
-            </div>
-            <div class="formRow">
-                <label>Password:</label>
-                <input class="form-control" v-model="model.password" type="password" />
-            </div>
-            <div>
-                <button class="btn btn-outline-primary" v-on:click="sendLoginData()">Submit</button>
-            </div>
-        </div>
-        <div v-if="authenticated">User {{ userdata.username }} logged in.</div>
+  <div class="loginView">
+    <div v-if="!authenticated">
+      <p class="mb-3">
+        Melde dich mit deinem Schulaccount an, um die App zu testen.
+      </p>
+      <div class="formRow">
+        <label>Username:</label>
+        <input class="form-control" v-model="model.username" type="text" />
+      </div>
+      <div class="formRow">
+        <label>Password:</label>
+        <input class="form-control" v-model="model.password" type="password" />
+      </div>
+      <div>
+        <button class="btn btn-outline-primary" v-on:click="sendLoginData()">
+          Submit
+        </button>
+      </div>
     </div>
+    <div v-if="authenticated">User {{ userdata.username }} logged in.</div>
+  </div>
 </template>
 
 <style scoped>
 .loginView {
-    padding: 2em 3em;
-    border: 2px solid hsl(180, 53%, 80%);
-    border-radius: 1em;
-    max-width: 50em;
-    margin: 2em auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
+  padding: 2em 3em;
+  border: 2px solid hsl(180, 53%, 80%);
+  border-radius: 1em;
+  max-width: 50em;
+  margin: 2em auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 .formRow {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
 }
 
 .formRow label {
-    display: block;
-    flex: 0 0 6em;
+  display: block;
+  flex: 0 0 6em;
 }
 .formRow input {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 </style>
 
 <script>
 export default {
-    setup() {},
-    data() {
-        return {
-            message: '',
-            model: {
-                username: '',
-                password: '',
-            },
-        };
+  setup() {},
+  data() {
+    return {
+      message: "",
+      model: {
+        username: "",
+        password: "",
+      },
+    };
+  },
+  mounted() {
+    this.message = "";
+  },
+  methods: {
+    async sendLoginData() {
+      try {
+        const userdata = (await axios.post("auth/login", this.model)).data;
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${userdata.token}`;
+        this.$store.commit("authenticate", userdata);
+        this.message = `User ${userdata.username} logged in.`;
+      } catch (e) {
+        if (e.response.status == 401) {
+          alert("Login failed. Invalid credentials.");
+        }
+      }
     },
-    mounted() {
-        this.message = '';
+  },
+  computed: {
+    authenticated() {
+      return this.$store.state.userdata.username ? true : false;
     },
-    methods: {
-        async sendLoginData() {
-            try {
-                const userdata = (await axios.post('user/login', this.model)).data;
-                axios.defaults.headers.common['Authorization'] = `Bearer ${userdata.token}`;
-                this.$store.commit('authenticate', userdata);
-                this.message = `User ${userdata.username} logged in.`;
-            } catch (e) {
-                if (e.response.status == 401) {
-                    alert('Login failed. Invalid credentials.');
-                }
-            }
-        },
+    userdata() {
+      return this.$store.state.userdata;
     },
-    computed: {
-        authenticated() {
-            return this.$store.state.userdata.username ? true : false;
-        },
-        userdata() {
-            return this.$store.state.userdata;
-        },
-    },
+  },
 };
 </script>
