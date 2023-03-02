@@ -2,6 +2,7 @@
 using HtlDamage.Application.Dto;
 using HtlDamage.Application.Infrastructure;
 using HtlDamage.Application.Model;
+using HtlDamage.Webapi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,19 +16,17 @@ namespace HtlDamage.Webapi.Controllers
     [ApiController]
     public class DamageController : ControllerBase
     {
-        private readonly DamageContext _db;
-        private readonly IMapper _mapper;
+        private readonly DamageService _damageService;
 
-        public DamageController(DamageContext db, IMapper mapper)
+        public DamageController(DamageService damageService)
         {
-            _db = db;
-            _mapper = mapper;
+            _damageService = damageService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllDamages()
         {
-            var damages = await _db.Damages
+            var damages = await _damageService.Damages
                 .OrderBy(d => d.Room.RoomNumber)
                 .Select(d => new
                 {
