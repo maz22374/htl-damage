@@ -8,9 +8,11 @@ namespace HtlDamage.Application.Model
 {
     public class Damage
     {
-        public Damage(string name, Room room, DateTime created, DateTime lastSeen, Lesson lesson, DamageCategory damageCategory)
+        public Damage(string name, string imageUrl, Room room, DateTime created, 
+            DateTime lastSeen, Lesson lesson, DamageCategory damageCategory)
         {
             Name = name;
+            ImageUrl = imageUrl;
             Room = room;
             Created = created;
             LastSeen = lastSeen;
@@ -25,6 +27,7 @@ namespace HtlDamage.Application.Model
         public int Id { get; private set; }
         public Guid Guid { get; set; }
         public string Name { get; set; }
+        public string ImageUrl { get; set; }
         public Room Room { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastSeen { get; set; }

@@ -230,6 +230,7 @@ namespace HtlDamage.Application.Infrastructure
 
                 var damage = new Damage(
                     name: f.Lorem.Sentence(f.Random.Int(3, 10)),
+                    imageUrl: f.Image.PicsumUrl(),
                     room: f.Random.ListItem(rooms),
                     created: created,
                     lastSeen: lastSeen,

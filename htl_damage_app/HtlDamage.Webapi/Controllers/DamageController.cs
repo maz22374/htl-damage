@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using HtlDamage.Application.Dto;
+using Docker.DotNet.Models;
+using HtlDamage.Application.Cmd;
 using HtlDamage.Application.Infrastructure;
 using HtlDamage.Application.Model;
 using HtlDamage.Webapi.Services;
@@ -47,6 +48,14 @@ namespace HtlDamage.Webapi.Controllers
                 .ToListAsync();
 
             return Ok(damages);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddDamage(DamageCmd damageCmd)
+        {
+            var (success, message, damage) = await _damageService.AddDamage(damageCmd);
+            if(!success) return BadRequest(message);
+            return Ok(damage);
         }
     }
 }

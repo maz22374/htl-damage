@@ -38,6 +38,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddHttpContextAccessor();  // Required to access the http context in the authService.
 builder.Services.AddTransient<DamageService>();  
 builder.Services.AddTransient<AuthService>();  
+builder.Services.AddTransient(provider => new StorageClient(builder.Configuration["StorageConnectionString"]));  
 builder.Services.AddDbContext<DamageContext>(opt =>
 {
     opt.UseSqlServer(
