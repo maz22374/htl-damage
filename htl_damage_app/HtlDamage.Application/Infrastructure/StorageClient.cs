@@ -30,7 +30,7 @@ namespace HtlDamage.Application.Infrastructure
         public async Task<BlobResult> UploadFileToAzure(string containerName, string filename, byte[] content)
         {
             var imageId = Guid.NewGuid();
-            var blobName = DateTime.UtcNow.ToString("yyyyMMddHHmmss") + "_" + Guid.NewGuid().ToString("N") + Path.GetExtension(filename);
+            var blobName = DateTime.UtcNow.ToString("yyyyMMdd") + "_" + Guid.NewGuid().ToString("N") + Path.GetExtension(filename);
             if (!ContentTypes.TryGetValue(Path.GetExtension(filename), out var mimeType))
             {
                 throw new ApplicationException("Invalid file extension.");
