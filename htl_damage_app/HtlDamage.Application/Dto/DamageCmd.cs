@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HtlDamage.Application.Cmd
+namespace HtlDamage.Application.Dto
 {
     public record DamageCmd(
         Guid Guid,

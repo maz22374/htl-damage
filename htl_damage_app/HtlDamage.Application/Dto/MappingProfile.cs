@@ -7,8 +7,11 @@ namespace HtlDamage.Application.Dto
     {
         public MappingProfile()
         {
+            // Dto
             CreateMap<Damage, DamageDto>();
-            CreateMap<DamageDto, Damage>();
+
+            // Cmd
+            CreateMap<DamageCmd, Damage>();
         }
     }
 }

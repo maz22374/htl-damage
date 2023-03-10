@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Docker.DotNet.Models;
-using HtlDamage.Application.Cmd;
+using HtlDamage.Application.Dto;
 using HtlDamage.Application.Infrastructure;
 using HtlDamage.Application.Model;
 using HtlDamage.Webapi.Services;
@@ -18,10 +18,12 @@ namespace HtlDamage.Webapi.Controllers
     public class DamageController : ControllerBase
     {
         private readonly DamageService _damageService;
+        private readonly IMapper _mapper;
 
-        public DamageController(DamageService damageService)
+        public DamageController(DamageService damageService, IMapper mapper)
         {
             _damageService = damageService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -54,8 +56,8 @@ namespace HtlDamage.Webapi.Controllers
         public async Task<IActionResult> AddDamage(DamageCmd damageCmd)
         {
             var (success, message, damage) = await _damageService.AddDamage(damageCmd);
-            if(!success) return BadRequest(message);
-            return Ok(damage);
+            if (!success) return BadRequest(message);
+            return Ok(_mapper.Map<DamageDto>(damage));
         }
     }
 }
