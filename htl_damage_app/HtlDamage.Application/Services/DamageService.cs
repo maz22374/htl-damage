@@ -23,7 +23,7 @@ namespace HtlDamage.Webapi.Services
 
         public IQueryable<Damage> Damages => _db.Damages.AsQueryable();
 
-        public async Task<(bool success, string? message, Damage? damage)> AddDamage(DamageCmd damageCmd)
+        public async Task<(bool success, string? message, Damage? damage)> AddDamage(NewDamageCmd damageCmd)
         {
             var guid = Guid.NewGuid().ToString();
             var filename = $"{DateTime.Now:yyyyMMdd}-{guid}.jpg";

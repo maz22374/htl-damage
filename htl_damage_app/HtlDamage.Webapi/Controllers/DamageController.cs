@@ -53,7 +53,7 @@ namespace HtlDamage.Webapi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddDamage(DamageCmd damageCmd)
+        public async Task<IActionResult> AddDamage(NewDamageCmd damageCmd)
         {
             var (success, message, damage) = await _damageService.AddDamage(damageCmd);
             if (!success) return BadRequest(message);

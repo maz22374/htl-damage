@@ -11,7 +11,7 @@ namespace HtlDamage.Application.Dto
             CreateMap<Damage, DamageDto>();
 
             // Cmd
-            CreateMap<DamageCmd, Damage>();
+            CreateMap<NewDamageCmd, Damage>();
         }
     }
 }

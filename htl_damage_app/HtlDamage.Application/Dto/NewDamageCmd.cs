@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace HtlDamage.Application.Dto
 {
-    public record DamageCmd(
+    public record NewDamageCmd(
         Guid Guid,
         string Name,
         string Attachment,
